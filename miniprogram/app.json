@@ -3,10 +3,10 @@
     "pages/index/index"
   ],
   "window": {
-    "backgroundColor": "#F6F6F6",
+    "backgroundColor": "#F8F8F8",
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#F6F6F6",
-    "navigationBarTitleText": "云开发 QuickStart",
+    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarTitleText": "碧桂园东境6号楼选房优先级演示",
     "navigationBarTextStyle": "black"
   }
 }
