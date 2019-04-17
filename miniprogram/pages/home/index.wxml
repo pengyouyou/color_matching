@@ -1,0 +1,28 @@
+<!-- 导航 -->
+<nav title="颜色配色表" bgColor="transparent" dark leftShare></nav>
+
+
+<view class="bg" style="background-image: url({{bg_img}});">
+    <view class="bg-shadow"></view>
+</view>
+
+<container>
+    <view class="container">
+        <view class="home-item" hover-class='home-item-hover' style="background-color: lightpink;" bindtap='onMatchHue'>
+            <text>按色相搭</text>
+        </view>
+		
+        <view class="home-item" hover-class='home-item-hover' style="background-color: lightgreen;" bindtap='onMatchImpression'>
+            <text>按印象搭</text>
+        </view>
+        <view class="home-item" hover-class='home-item-hover' style="background-color: lightblue;" bindtap='onFavorite'>
+            <text>我的收藏</text>
+        </view>
+
+
+		<view class="home-item-mini" hover-class='home-item-hover' style="background-color: purple;" data-category="1" data-idx="4" bindtap='onTapMini'>
+                <text>紫色</text>
+            </view>
+    </view>
+
+</container>

@@ -1,0 +1,23 @@
+<!-- 导航 -->
+<nav title="{{title}}" bgColor="#F8F8F8" go-back></nav>
+
+<container>
+    <view class="container">
+
+		<block wx:for-items="{{info.color}}" wx:key="title">
+			<view class="matching-item" hover-class='matching-item-hover' bindtap='onTap' data-idx="{{index}}">
+				<view class="matching-color-item" style="background-color: {{item[0]}};">
+					<text>{{item[0]}}</text>
+				</view>
+				<view class="matching-color-item" style="background-color: {{item[1]}};">
+					<text>{{item[1]}}</text>
+				</view>
+				<view class="matching-color-item" style="background-color: {{item[2]}};">
+					<text>{{item[2]}}</text>
+				</view>
+			</view>
+		</block>
+
+    </view>
+
+</container>

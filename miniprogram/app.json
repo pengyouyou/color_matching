@@ -1,12 +1,16 @@
 {
   "pages": [
+	"pages/home/index",
+	"pages/hue/index",
+	"pages/matching/index",
     "pages/index/index"
   ],
   "window": {
-    "backgroundColor": "#F8F8F8",
+    "backgroundColor": "#fff",
     "backgroundTextStyle": "light",
     "navigationBarBackgroundColor": "#F8F8F8",
-    "navigationBarTitleText": "东境6号楼选房优先级演示",
-    "navigationBarTextStyle": "black"
+    "navigationBarTitleText": "颜色配色表",
+    "navigationBarTextStyle": "white",
+	"navigationStyle": "custom"
   }
 }
