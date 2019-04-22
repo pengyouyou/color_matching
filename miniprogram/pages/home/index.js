@@ -1,5 +1,5 @@
 const app = getApp()
-
+const config = require('../../config')
 
 Page({
 
@@ -8,7 +8,7 @@ Page({
      */
     data: {
         loading: true,
-        data: [],
+        infos: [],
 		bg_img: 'http://image.wufazhuce.com/FoOjDu9idRN61wTw1vdPGEn3sRVl',
         SHOW_MENU: false,
         nickName: null,
@@ -47,6 +47,44 @@ Page({
         //         });
         //     }
         // });
+
+		let infos = [{
+				title: "白色独角兽",
+				colors: ['#EFCEE8', '#F3D7B5', '#FDFFDF', '#DAF9CA', '#C7B3E5']
+			}, 
+			{
+				title: "海与天的边界",
+				colors: ['#4cb4e7', '#ffc09f', '#ffee93', '#e2dbbe', '#a3a380']
+			},
+			{
+				title: "晚霞剪影",
+				colors: ['#B85A9A', '#9C2189', '#9E026D', '#B8288A', '#CC2F69']
+			},
+			{
+				title: "盛开的桃花",
+				colors: ['#9DD3FA', '#1F6FB5', '#FCD692', '#FAFFEB', '#FFFFFF']
+			},
+			{
+				title: "神奈川冲浪里",
+				colors: ['#0D1740', '#16245C', '#F8F2DC', '#A39F93', '#E9CFAE']
+			},
+			{
+				title: "美好时代的回忆",
+				colors: ['#E03636', '#EDD0BE', '#FF534D', '#EDD0BE', '#25C6FC']
+			},
+			{
+				title: "午后奶茶",
+				colors: ['#EDE387', '#EDEDED', '#3B200C', '#DE8100', '#CCFC62']
+			},
+			{
+				title: "森林之光",
+				colors: ['#82A6F5', '#EAF048', '#9FF048', '#2A5200', '#F6D6FF']
+			},
+			]
+		console.log(infos)
+		this.setData({
+			infos
+		})
     },
     
 

@@ -10,7 +10,7 @@ Page({
      */
     data: {
 		info: [],
-		title: "配色组合",
+		title: "",
 		tips: null
     },
 
@@ -22,28 +22,33 @@ Page({
     },
 
 
+	getPaletteByID(id) {
+		let list = app.globalData.palettes;
+		for (let i = 0; i < list.length; i++) {
+			if (id == list[i].id) {
+				return list[i]
+			}
+		}
+	},
+
     /**
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
 
 		console.log(options)
-		const { idx, category } = options
-		let info = []
-		let title = ""
-		if (category == 1) {
-			info = config.list_hue[idx]
-			title = info.title + "配色组合"
-		} else if (category == 2) {
-			info = config.list_impression[idx]
-			title = info.title + "配色组合"
-		}
+
+		// 基础信息通过参数传过来
+		const { id, title, colors } = options
+
+		// 取全体信息，包含描述等等
+		let info = getPaletteByID(id)
 		
 		console.log(idx, info)
 		this.setData({
 			info,
 			title,
-			tips: info.tip
+			desc: info.tip
 		})
 
         // 检查是否已经展示引导
