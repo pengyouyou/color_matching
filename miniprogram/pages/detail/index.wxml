@@ -1,27 +1,35 @@
 <!-- 导航 -->
-<nav title="{{title}}" bgColor="#F8F8F8" go-back></nav>
+<nav title="{{title}}" bgColor="#222" dark go-back></nav>
 
 <container>
     <view class="container">
+		
+		<block wx:for-items="{{colors}}" wx:key="{{key}}">
+			<view class="detail-item">
+				<view class="detail-item-color" style="background-color: {{item}};"></view>
+				<view class="detail-item-value">
+					<text class="detail-item-value-text0">HEX</text>
+					<text class="detail-item-value-text1">{{item}}</text>
 
-		<view class="tip-box" wx:if="{{tips}}">
-			<text>{{tips}}</text>
-		</view>
+					<text class="detail-item-value-text0">RGB</text>
+					<text class="detail-item-value-text1">{{rgbs[index]}}</text>
+				</view>
 
-		<block wx:for-items="{{info.color}}" wx:key="title">
-			<view class="matching-item" hover-class='matching-item-hover' bindtap='onTap' data-idx="{{index}}">
-				<view class="matching-color-item" style="background-color: {{item[0]}};">
-					<text>{{item[0]}}</text>
-				</view>
-				<view class="matching-color-item" style="background-color: {{item[1]}};">
-					<text>{{item[1]}}</text>
-				</view>
-				<view class="matching-color-item" style="background-color: {{item[2]}};">
-					<text>{{item[2]}}</text>
-				</view>
 			</view>
 		</block>
 
+		<view class="menu-box">
+			<button class='menu-button-send' bindtap='onSend'>发送到微信</button>
+			<button class='menu-button-copy' bindtap='onCopy'>复制颜色代码</button>
+		</view>
+		<view class="desc-box">
+			<text wx:if="{{desc}}">{{desc}}</text>
+
+			<block wx:if="{{images && images.length > 0}}" wx:for-items="{{images}}" wx:key="{{key}}">
+				<image data-idx="{{index}}" style="height: {{heights[index]}}rpx" mode="aspectFit" src="{{item}}" bindload='onImageLoaded' bindtap='previewImage'></image>
+			</block>
+		</view>
     </view>
 
+	<foot></foot>
 </container>

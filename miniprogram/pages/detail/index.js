@@ -1,7 +1,5 @@
 const app = getApp()
-const config = require('../../config')
-
-const HELPER_KEY = 'HELPER_20181223';
+const util = require('../../utils/util')
 
 Page({
 
@@ -10,19 +8,18 @@ Page({
      */
     data: {
 		info: [],
+		colors: [],
+		rgbs: [],
 		title: "",
-		tips: null
-    },
+		desc: "",
+		images: null,
 
-    closeHelper: function() {
-        this.setData({
-            SHOW_HELPER: false
-        });
-        wx.setStorageSync(HELPER_KEY, 'yes');
+		heights: []
     },
-
 
 	getPaletteByID(id) {
+		if (!id) return null;
+
 		let list = app.globalData.palettes;
 		for (let i = 0; i < list.length; i++) {
 			if (id == list[i].id) {
@@ -37,29 +34,42 @@ Page({
     onLoad: function(options) {
 
 		console.log(options)
+		let json = JSON.parse(options.json)
 
 		// 基础信息通过参数传过来
-		const { id, title, colors } = options
+		const { id, title, colors } = json
 
-		// 取全体信息，包含描述等等
-		let info = getPaletteByID(id)
+		// 可能这个json的数据不是全的，为了扩展方便，应该在有id的情况下去全局数组里取
+		if (id) {
+			// 取全体信息，包含描述等等
+			this.data.info = this.getPaletteByID(id)
+		} else {
+			this.data.info = json
+		}
+
+		let info = this.data.info
+
+		let rgbs = []
+		for (let i = 0; i < colors.length; i++) {
+			let nums = util.hex2num(colors[i])
+			rgbs[i] = nums.join(", ")
+		}
+
+		let images = null
+		if (info && info.images) images = info.images
 		
-		console.log(idx, info)
 		this.setData({
-			info,
 			title,
-			desc: info.tip
+			colors,
+			rgbs,
+			desc: info ? info.desc : "",
+			images
 		})
 
-        // 检查是否已经展示引导
-        let IS_SHOW_HELPER = wx.getStorageSync(HELPER_KEY);
-        if (!IS_SHOW_HELPER) {
-            wx.showToast({
-				title: '长按色块可以复制颜色值',
-				icon: 'info'
-			});
-			wx.setStorageSync(HELPER_KEY, 'yes');
-        }
+        // 检查是否已经有描述了，没有就去获取
+		// if (!info.desc) {
+
+		// }
     },
     
 
@@ -98,10 +108,50 @@ Page({
 
     },
 
-	onTap: function (event) {
-		console.log('onTap', JSON.stringify(event))
-		// wx.navigateTo({
-		// 	url: '/pages/hue/index',
-		// })
+	onCopy: function (event) {
+		console.log('onCopy')
+		
+		let colors = this.data.colors
+		let str = colors.join(", ")
+		str = str.toLowerCase()
+		console.log(str)
+		wx.setClipboardData({
+			data: str,
+			success: function (res) {
+				wx.getClipboardData({
+					success: function (res) {
+						wx.showToast({
+							title: '复制成功'
+						})
+					}
+				})
+			}
+		})
+	},
+
+	onSend: function (event) {
+	},
+
+	onImageLoaded: function (event) {
+		console.log('onImageLoaded', event)
+		const { width, height } = event.detail
+		let idx = event.currentTarget.dataset.idx
+
+		let oriw = 640
+		let newh = Math.floor(oriw / width * height)
+		console.log(newh)
+
+		this.data.heights[idx] = newh
+		
+		this.setData({
+			heights: this.data.heights
+		})
+
+	},
+
+	previewImage: function () {
+		wx.previewImage({
+			urls: this.data.images,
+		});
 	},
 })

@@ -43,9 +43,17 @@ Component({
 
 
     onTap: function () {
-      this.setData({
-        // SHOW_DATA: !this.data.SHOW_DATA
-      });
+		console.log(this.properties.swidth, this.properties.info)
+		let info = this.properties.info
+		// let param = {
+		// 	id: info.id,
+		// 	title: info.title,
+		// 	colors: info.colors
+		// }
+		let param_str = JSON.stringify(info)
+		wx.navigateTo({
+			url: `/pages/detail/index?json=${param_str}`,
+		})
     },
 
     // touchStart: function (e) {

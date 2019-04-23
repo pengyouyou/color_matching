@@ -83,10 +83,40 @@ function formatDateTime(date, withMs = false) {
 	return ret
 }
 
+function hex2rgb(hex) {
+	// hex = #FFFFFF
+	hex = hex.replace('#', '0x')
+	return `rgb(${hex >> 16},${hex >> 8 & 0xff},${hex & 0xff})`
+}
+
+function hex2num(hex) {
+	// hex = #FFFFFF
+	hex = hex.replace('#', '0x')
+	return [hex >> 16, hex >> 8 & 0xff, hex & 0xff]
+}
+
+function num2hex(r, g, b) {
+	// 255,255,255
+	return (r << 16 | g << 8 | b).toString(16)
+}
+
+function rgb2hex(r, g, b) {
+	// rgb = 'rgb(255,255,255)'
+
+	//用不是数字的字符分割原字符串
+	rbg = rgb.split(/[^\d]+/g)
+	return (rgbArr[1] << 16 | rgbArr[2] << 8 | rgbArr[3]).toString(16)
+}
+
 module.exports = {
 	formatDate,
 	formatTime,
 	formatLocation,
 	fib,
-	formatDateTime
+	formatDateTime,
+
+	hex2rgb,
+	hex2num,
+	num2hex,
+	rgb2hex
 }
