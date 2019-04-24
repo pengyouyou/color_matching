@@ -13,6 +13,9 @@
 
 					<text class="detail-item-value-text0">RGB</text>
 					<text class="detail-item-value-text1">{{rgbs[index]}}</text>
+
+					<text class="detail-item-value-text0">HSB</text>
+					<text class="detail-item-value-text1">{{hsbs[index]}}</text>
 				</view>
 
 			</view>

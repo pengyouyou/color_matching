@@ -1,5 +1,7 @@
 const app = getApp()
 const config = require('../../config')
+const server = require('../../utils/server')
+
 
 Page({
 
@@ -48,12 +50,40 @@ Page({
         //     }
         // });
 
-		let infos = app.globalData.palettes
+		wx.showLoading({
+			title: '',
+		})
+
+		let param = {
+			start: 0,
+			len: 4
+		}
+		server.getHots(param).then(res => {
+			console.log('get palettes ok')
+			wx.hideLoading()
+			
+			app.globalData.hot_palettes = res.data
+
+			this.setPalettes(app.globalData.palettes)
+		}).catch(err => {
+			console.log('get palettes failed')
+			wx.hideLoading()
+			wx.showToast({
+				icon: 'none',
+				title: '啊噢，没有获取到最新配色方案，服务器可能进水了'
+			})
+		})
+
+		this.setPalettes(app.globalData.hot_palettes)
+		
+    },
+
+	setPalettes(infos) {
 		console.log(infos)
 		this.setData({
 			infos
 		})
-    },
+	},
     
 
     /**

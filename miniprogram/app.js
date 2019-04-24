@@ -54,7 +54,8 @@ App({
 
 
         this.globalData = {
-			palettes: config.default_palettes,
+			hot_palettes: config.default_palettes,
+			palettes: []
 		}
     },
 

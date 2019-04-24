@@ -10,6 +10,7 @@ Page({
 		info: [],
 		colors: [],
 		rgbs: [],
+		hsbs: [],
 		title: "",
 		desc: "",
 		images: null,
@@ -50,18 +51,23 @@ Page({
 		let info = this.data.info
 
 		let rgbs = []
+		let hsbs = []
 		for (let i = 0; i < colors.length; i++) {
-			let nums = util.hex2num(colors[i])
+			let nums = util.hex2Rgb(colors[i])
 			rgbs[i] = nums.join(", ")
+
+			let hsb = util.rgb2Hsb(nums)
+			hsbs[i] = `${hsb[0]}, ${hsb[1]}%, ${hsb[2]}%`
 		}
 
 		let images = null
 		if (info && info.images) images = info.images
 		
 		this.setData({
-			title,
+			title: title || "配色方案详情",
 			colors,
 			rgbs,
+			hsbs,
 			desc: info ? info.desc : "",
 			images
 		})
