@@ -50,23 +50,29 @@ Page({
         //     }
         // });
 
+		if (app.globalData.hot_palettes.length) return
+		
+		app.globalData.hot_palettes = config.default_palettes
+		this.setPalettes(app.globalData.hot_palettes)
+
+		// 获取后台的数据
 		wx.showLoading({
 			title: '',
 		})
 
 		let param = {
 			start: 0,
-			len: 4
+			len: 7
 		}
 		server.getHots(param).then(res => {
-			console.log('get palettes ok')
+			console.log('get getHots ok, res', res)
 			wx.hideLoading()
 			
 			app.globalData.hot_palettes = res.data
 
-			this.setPalettes(app.globalData.palettes)
+			this.setPalettes(app.globalData.hot_palettes)
 		}).catch(err => {
-			console.log('get palettes failed')
+			console.log('get getHots failed')
 			wx.hideLoading()
 			wx.showToast({
 				icon: 'none',
@@ -74,12 +80,10 @@ Page({
 			})
 		})
 
-		this.setPalettes(app.globalData.hot_palettes)
-		
     },
 
 	setPalettes(infos) {
-		console.log(infos)
+		console.log('setPalettes, length:', infos.length)
 		this.setData({
 			infos
 		})
@@ -145,4 +149,10 @@ Page({
 	onFavorite: function () {
 
 	}, 
+
+	onSquare: function () {
+		wx.navigateTo({
+			url: `/pages/square/index`,
+		})
+	}
 })

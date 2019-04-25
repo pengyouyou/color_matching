@@ -12,9 +12,9 @@
         <view class="newest-box">
 			<!-- <text>每日精选配色</text> -->
 			<block wx:for-items="{{infos}}" wx:key="{{index}}">
-				<one info="{{item}}" swidth="670" style="margin-top: 3rpx;"></one>
+				<one wx:if="{{index < 7}}" info="{{item}}" swidth="670" style="margin-top: 7rpx;"></one>
 			</block>
-			<button>更多热门配色方案</button>
+			<button bindtap='onSquare'>更多热门配色方案</button>
         </view>
 
         <view class="menu-box">

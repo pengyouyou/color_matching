@@ -17,15 +17,10 @@ addOne = (item) => {
 			// 注意：data 字段表示需新增的 JSON 数据
 			data: item
 		}).then(res => {
-			console.log(res)
-
+			// {_id: "988c1b1b5cc1176d063d10d464612e8d", errMsg: "collection.add:ok"}
 			console.log(`palettes [新增记录] success, title: ${item.title}, _id: ${res._id}`)
 			resolve(res)
 		}).catch(err => {
-			wx.showToast({
-				icon: 'none',
-				title: '新增记录失败'
-			})
 			console.error(`palettes [新增记录] failed, title: ${item.title}`, err)
 			reject(err)
 		})
@@ -35,10 +30,10 @@ addOne = (item) => {
 exports.main = async(event, context) => {
     console.log(event, context)
 
-	let total = data.length
 	// 承载所有读操作的 promise 的数组
 	const tasks = []
 	let data = dbdata
+	let total = data.length
 	for (let i = 0; i < total; i++) {
 		let item = data[i]
 		item["uptime"] = db.serverDate()
@@ -51,23 +46,20 @@ exports.main = async(event, context) => {
 	console.log('total:', total)
 
 	// 等待所有
-	let res = await Promise.all(tasks).reduce((acc, cur) => ({
-		data: acc.data.concat(cur.data),
-		errMsg: acc.errMsg,
-	}))
-	console.log('res: ', res)
-
-
-    // 获取 WX Context (微信调用上下文)，包括 OPENID、APPID、及 UNIONID（需满足 UNIONID 获取条件）
-    const wxContext = cloud.getWXContext()
-    console.log('wxContext:', wxContext)
+	let res = (await Promise.all(tasks)).reduce((acc, cur, idx) => {
+		// console.log(acc, cur, idx)
+		return {
+			data: acc.data.concat(cur._id),
+			errMsg: acc.errMsg.concat(cur.errMsg)
+		}
+	}, { data: [], errMsg: []} )
+	console.log('res: ', res.data, res.errMsg)
 
     return {
         event,
-        openid: wxContext.OPENID,
-        unionid: wxContext.UNIONID,
 
         total,
-		data: res.data
+		ids_length: res.data.length,
+		ids: res.data
     }
 }

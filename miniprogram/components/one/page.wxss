@@ -50,9 +50,6 @@
 } */
 
 .title-text {
-	/* position: absolute;
-	left: 0;
-	top: 0; */
 	padding: 6rpx 0 2rpx;
 	font-size: 24rpx;
 	color: black;
@@ -61,7 +58,7 @@
 .one-color-item {
   position: relative;
   width: auto;
-	height: 70rpx;
+	height: 80rpx;
 }
 
 .hover{

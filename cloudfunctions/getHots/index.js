@@ -50,6 +50,15 @@ exports.main = async(event, context) => {
 		let pids = res.data[0].pids
 		console.log('pids:', pids)
 
+		let idxAt = (tid) => {
+			for (let k = 0; k < pids.length; k++) {
+				if (pids[k] == tid) {
+					return k
+				}
+			}
+			return 0
+		}
+
 		if (pids && pids.length > 0) {
 			const tpromise = db.collection('palettes').where({
 				_id: _.in(pids)
@@ -59,6 +68,11 @@ exports.main = async(event, context) => {
 			console.log('tres:', tres)
 
 			data = tres.data
+
+			// command.in方法查询出来的结果顺序是乱的，将data结果按照pids里的_id顺序排序
+			data.sort( (a, b) => {
+				return idxAt(a._id) - idxAt(b._id)
+			})
 		}
 	}
 

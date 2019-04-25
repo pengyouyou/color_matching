@@ -101,7 +101,7 @@ exports.main = async(event, context) => {
 	const tasks = []
 	for (let i = 0; i < batchTimes; i++) {
 		let limit = Math.min(len - i * MAX_LIMIT, MAX_LIMIT)
-		const promise = db.collection('palettes').skip(i * MAX_LIMIT).limit(limit).get()
+		const promise = db.collection('palettes').skip(start + i * MAX_LIMIT).limit(limit).get()
 		tasks.push(promise)
 	}
 

@@ -9,7 +9,9 @@ Component({
    */
   properties: {
     info: null,
-	swidth: Number
+	swidth: Number,
+	title_style: null,
+	colors_style: null
   },
 
   /**

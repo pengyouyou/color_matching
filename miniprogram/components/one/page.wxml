@@ -1,5 +1,5 @@
 <view class='body'>
-	<text class='title-text'>{{info.title}}</text>
+	<text class='title-text' style="{{title_style}}">{{info.title}}</text>
     <view class='color-container' hover-class='hover' bindtap='onTap'>
 
             <!-- 长按或者左滑出现 收藏、分享、发送到微信按钮 -->
@@ -10,7 +10,7 @@
 			
             <block wx:for-items="{{info.colors}}" wx:key="title">
 			
-                <view class="one-color-item" style="background-color: {{item}};  width: {{swidth/info.colors.length}}rpx;">
+                <view class="one-color-item" style="background-color: {{item}};  width: {{swidth/info.colors.length}}rpx; {{colors_style}}">
 
                 </view>
             </block>

@@ -11,7 +11,7 @@ Page({
     data: {
 		info: [],
 		title: "配色组合",
-		tips: null
+		tips: ""
     },
 
     closeHelper: function() {
@@ -43,7 +43,7 @@ Page({
 		this.setData({
 			info,
 			title,
-			tips: info.tip
+			tips: info.tip || ""
 		})
 
         // 检查是否已经展示引导

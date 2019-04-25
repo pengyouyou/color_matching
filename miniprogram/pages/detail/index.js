@@ -41,12 +41,12 @@ Page({
 		const { id, title, colors } = json
 
 		// 可能这个json的数据不是全的，为了扩展方便，应该在有id的情况下去全局数组里取
-		if (id) {
-			// 取全体信息，包含描述等等
-			this.data.info = this.getPaletteByID(id)
-		} else {
+		// if (id) {
+		// 	// 取全体信息，包含描述等等
+		// 	this.data.info = this.getPaletteByID(id)
+		// } else {
 			this.data.info = json
-		}
+		// }
 
 		let info = this.data.info
 
