@@ -73,7 +73,8 @@ exports.main = async(event, context) => {
 	}).update({
 		data: {
 			pids: pids,
-			titles: titles
+			titles: titles,
+			uptime: db.serverDate()
 		},
 	})
 
