@@ -32,7 +32,7 @@ cloud.init()
 
 const db = cloud.database()
 const MAX_LIMIT = 100
-const MAX_SEND = 10
+const MAX_SEND = 20
 
 // let plist = []
 // let tophrase = 0

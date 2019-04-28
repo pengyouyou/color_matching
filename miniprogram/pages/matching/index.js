@@ -5,10 +5,21 @@ const HELPER_KEY = 'HELPER_20181223';
 
 Page({
 
+	/**
+     * 用户点击右上角分享
+     */
+	onShareAppMessage: function () {
+		return {
+			title: `${this.data.title}，配色表，专注颜色搭配！`,
+			path: `pages/matching/index?${JSON.stringify(this.data.query)}`
+		}
+	},
+
     /**
      * 页面的初始数据
      */
     data: {
+		query: {},
 		info: [],
 		title: "配色组合",
 		tips: ""
@@ -27,7 +38,9 @@ Page({
      */
     onLoad: function(options) {
 
-		console.log(options)
+		console.log('matching onLoad, options:', options)
+		this.data.query = options
+
 		const { idx, category } = options
 		let info = []
 		let title = ""
@@ -83,13 +96,6 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload: function() {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function() {
 
     },
 

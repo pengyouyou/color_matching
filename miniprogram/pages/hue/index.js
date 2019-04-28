@@ -3,6 +3,16 @@ const config = require('../../config')
 
 Page({
 
+	/**
+     * 用户点击右上角分享
+     */
+	onShareAppMessage: function () {
+		return {
+			title: `${this.data.title}，配色表，专注颜色搭配！`,
+			path: `pages/home/index?${this.data.category}`
+		}
+	},
+
     /**
      * 页面的初始数据
      */
@@ -17,7 +27,8 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-		console.log(options)
+		console.log('hue onLoad, options:', options)
+
 		const {category} = options
 		let title = ""
 		let info = []
@@ -62,13 +73,6 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload: function() {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function() {
 
     },
 

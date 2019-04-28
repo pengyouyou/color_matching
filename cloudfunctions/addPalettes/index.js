@@ -8,7 +8,7 @@ const dbdata = require(`dbdata`)
 cloud.init()
 
 const db = cloud.database()
-const MAX_LIMIT = 100
+const MAX_LIMIT = 20
 
 addOne = (item) => {
 	// 新增一条记录
@@ -30,36 +30,51 @@ addOne = (item) => {
 exports.main = async(event, context) => {
     console.log(event, context)
 
-	// 承载所有读操作的 promise 的数组
+	
 	const tasks = []
 	let data = dbdata
 	let total = data.length
-	for (let i = 0; i < total; i++) {
-		let item = data[i]
-		item["uptime"] = db.serverDate()
-
-		// 新增一条记录
-		const promise = addOne(item)
-		tasks.push(promise)
-	}
+	let results = { data: [], errMsg: [] }
 
 	console.log('total:', total)
 
-	// 等待所有
-	let res = (await Promise.all(tasks)).reduce((acc, cur, idx) => {
-		// console.log(acc, cur, idx)
-		return {
-			data: acc.data.concat(cur._id),
-			errMsg: acc.errMsg.concat(cur.errMsg)
+	// 计算需分几次取
+	const batchTimes = Math.ceil(total / MAX_LIMIT)
+
+	for (let k = 0; k < batchTimes; k++) {
+		// 承载所有读操作的 promise 的数组
+		let tasks = []
+		for (let i = 0; i < MAX_LIMIT; i++) {
+			let idx = k * MAX_LIMIT + i
+			if (idx >= total) break
+
+			let item = data[idx]
+			item["uptime"] = db.serverDate()
+
+			// 新增一条记录
+			const promise = addOne(item)
+			tasks.push(promise)
 		}
-	}, { data: [], errMsg: []} )
-	console.log('res: ', res.data, res.errMsg)
+
+		// 等待所有
+		results = (await Promise.all(tasks)).reduce((acc, cur, idx) => {
+			// console.log(acc, cur, idx)
+			return {
+				data: acc.data.concat(cur._id),
+				errMsg: acc.errMsg.concat(cur.errMsg)
+			}
+		}, results)
+		console.log('cur round: ', tasks.length, 'cur total: ', results.data.length)
+
+		// results.data = results.data.concat(res.data)
+		// results.errMsg = results.data.concat(res.errMsg)
+	}
 
     return {
         event,
 
         total,
-		ids_length: res.data.length,
-		ids: res.data
+		ids_length: results.data.length,
+		ids: results.data
     }
 }

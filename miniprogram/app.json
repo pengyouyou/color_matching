@@ -4,8 +4,7 @@
 		"pages/hue/index",
 		"pages/matching/index",
 		"pages/detail/index",
-		"pages/square/index",
-		"pages/index/index"
+		"pages/square/index"
 	],
 	"window": {
 		"backgroundColor": "#fff",

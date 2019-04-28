@@ -64,17 +64,17 @@ App({
 		}
 
 		// console.log(mtext)
-		var data = [' <img alt="" border="0" name="g6-o44-1" onload="DrawImage" src="/bmp/foo1.jpg" />', ' <img src="/bmp/foo2.jpg" alt="" border="0" name="g6-o44-2" onload="DrawImage" />'];
-		var reg = /<img\b(?=(?:(?!name=).)*name=(['"]?)([^'"\s>]+)\1)(?:(?!src=).)*src=(['"]?)([^'"\s>]+)\3[^>]*>/i;
-		for (var i = 0; i < data.length; i++) {
-			var s = data[i];
+		// var data = [' <img alt="" border="0" name="g6-o44-1" onload="DrawImage" src="/bmp/foo1.jpg" />', ' <img src="/bmp/foo2.jpg" alt="" border="0" name="g6-o44-2" onload="DrawImage" />'];
+		// var reg = /<img\b(?=(?:(?!name=).)*name=(['"]?)([^'"\s>]+)\1)(?:(?!src=).)*src=(['"]?)([^'"\s>]+)\3[^>]*>/i;
+		// for (var i = 0; i < data.length; i++) {
+		// 	var s = data[i];
 
-			if (reg.test(s)) {
-				console.log('234')
-				document.getElementById("result").value += "name: " + RegExp.$2 + "\n";
-				document.getElementById("result").value += "src: " + RegExp.$4 + "\n";
-			}
-		}
+		// 	if (reg.test(s)) {
+		// 		console.log('234')
+		// 		document.getElementById("result").value += "name: " + RegExp.$2 + "\n";
+		// 		document.getElementById("result").value += "src: " + RegExp.$4 + "\n";
+		// 	}
+		// }
 
 
 		var tt = `<div id="endtext">
@@ -83,10 +83,29 @@ App({
 		var ts = `<div id="endtext">
     <p><span style="color:#00b050;font-family:times new roman">不知不觉春天即将来临，不由得让每个人带有一份新的向往，整个配色以娇柔粉色作为主色，加以青色和灰色作为搭配现实更加稳重和踏实的感觉，这两种色彩都是粉色的较好搭配，能一扫粉色过于柔弱的缺点，也令整个色彩搭配具有良好的视觉感，更好令人接受。<span style="font-size: 32px;"><span style="font-size: 10px;"><span style="font-size: 48px;"></span></span></span></span></p></div>
 <h3>下载到</h3>`
-		var treg = /id="endtext">\s*<p><img\b(?=(?:(?!name=).)*name=(['"]?)([^'"\s>]+)\1)(?:(?!src=).)*src=(['"]?)([^'"\s>]+)\3[^>]*>/gi;
+		var tm = `<div id="endtext">
+    <p>这个配色类型日本传统搭配中较为鲜艳的风格，但实际其更多的用于现代艺术品的着色中。一些画作，图案设计中较为多见，洋红色和黑色的搭配具有十分明显的现代风格，加上现代感十足的湖蓝，整个搭配使用的色彩纯度极高而明度也很高。<br/></p></div>
+<h3>下载到</h3>`
+		var tk = `<div id="endtext">
+    <p>晚霞出空&nbsp; &nbsp; &nbsp;</p><p>猝然心动</p></div>
+<h3>下载到</h3>`
+
+		// 非贪婪查找 正则的每一次捕获都是按照匹配最长的结果捕获的,如何解决正则的贪婪性 ->在量词元字符后面添加一个？即可
+		// var reg = /<div[^>]*?id=['"]+endtext['"]+[^>]*?>([\s\S]*?)<\/div>/ig
+		// reg.exec(tt)
+
+		// let desc = RegExp.$1
+		// // 过滤<br/><span><p>等标签
+		// desc = desc.replace(/<\/?[^>]*?>/ig, "")
+		// // 过滤换行、空格等
+		// desc = desc.replace(/\s+/ig, "")
+		// //去掉&nbsp
+		// desc = desc.replace(/(&nbsp;)+/ig, "。")
+
+		// console.log(desc, reg.lastIndex)
 
 
-		// this.getList("http://www.peise.net/palette/3.html")
+		// this.getList("http://www.peise.net/palette/10.html")
 		
     },
 
@@ -190,13 +209,13 @@ App({
 			colors: [],
 			desc: ""
 		}
-		var reg = /<h1>(\S*)<\/h1>/ig
+		var reg = /<h1>([\s\S]*?)<\/h1>/ig
 		reg.exec(mtext)
 
 		console.log(RegExp.$1, reg.lastIndex)
 		result["title"] = RegExp.$1
 
-		var reg = /background-color:\s#([0-9a-fA-F]+).*alt="\1"/ig
+		var reg = /background-color:\s#([0-9a-fA-F]+).*?alt="\1"/ig
 
 		var tmp = reg.exec(mtext)
 		while (tmp) {
@@ -206,10 +225,25 @@ App({
 			tmp = reg.exec(mtext)
 		}
 
-		reg = /id="endtext">\s*<p>(\S*)<\/p>/ig
+		// 非贪婪查找 正则的每一次捕获都是按照匹配最长的结果捕获的,如何解决正则的贪婪性 ->在量词元字符后面添加一个？即可
+		reg = /<div[^>]*?id=['"]+endtext['"]+[^>]*?>([\s\S]*?)<\/div>/ig
 		reg.exec(mtext)
-		// console.log(RegExp.$1, reg.lastIndex)
-		result["desc"] = RegExp.$1
+
+		let desc = RegExp.$1
+		// 过滤<br/><span><p>等标签
+		desc = desc.replace(/<\/?[^>]*?>/ig, "")
+		// 过滤换行、空格等
+		desc = desc.replace(/\s+/ig, "")
+		// 过滤开始的&nbsp
+		desc = desc.replace(/^(&nbsp;)+/ig, "")
+		// 过滤结尾的&nbsp
+		desc = desc.replace(/(&nbsp;)+$/ig, "")
+		// 替换中间的&nbsp;为空格
+		desc = desc.replace(/(&nbsp;)+/ig, " ")
+
+		// console.log(desc, reg.lastIndex)
+
+		result["desc"] = desc
 
 		console.log('result: ', result)
 		return result
@@ -219,14 +253,14 @@ App({
      * 当小程序启动，或从后台进入前台显示，会触发 onShow
      */
     onShow: function(options) {
-
+		console.log('app onShow, options:', options)
     },
 
     /**
      * 当小程序从前台进入后台，会触发 onHide
      */
     onHide: function() {
-
+		console.log('app onHide')
     },
 
     /**

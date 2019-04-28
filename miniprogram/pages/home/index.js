@@ -5,6 +5,16 @@ const server = require('../../utils/server')
 
 Page({
 
+	/**
+     * 用户点击右上角分享
+     */
+	onShareAppMessage: function () {
+		return {
+			title: '配色表，专注颜色搭配，每日精选7套热门配色方案！',
+			path: 'pages/home/index'
+		}
+	},
+
     /**
      * 页面的初始数据
      */
@@ -42,6 +52,7 @@ Page({
      */
     onLoad: function(options) {
         
+		console.log('home onLoad, options:', options, 'hot_palettes:', app.globalData.hot_palettes.length, 'palettes:', app.globalData.palettes.length)
         // wx.getUserInfo({
         //     success: ret => {
         //         this.setData({
@@ -50,7 +61,10 @@ Page({
         //     }
         // });
 
-		if (app.globalData.hot_palettes.length) return
+		if (app.globalData.hot_palettes.length) {
+			this.setPalettes(app.globalData.hot_palettes)
+			return
+		}
 		
 		app.globalData.hot_palettes = config.default_palettes
 		this.setPalettes(app.globalData.hot_palettes)
@@ -115,13 +129,6 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload: function() {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function() {
 
     },
 

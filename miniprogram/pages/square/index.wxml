@@ -3,12 +3,12 @@
 <nav title="配色广场" bgColor="#222" dark go-back></nav>
 
 
-<container>
+<container id='view_area'>
     <!-- <scroll-view scroll-y="true" style="height: 600rpx;"  bindscrolltolower='onScrollToBottom'> -->
-    <view class='container' id='container'>
-		<view class="newest-box" >
+    <view class='container'>
+		<view class="newest-box">
 			<block wx:for-items="{{infos}}" wx:key="{{index}}">
-				<one info="{{item}}" title_style="color: #ccc;" colors_style="height: 200rpx;" swidth="700" style="margin-top: 20rpx;"></one>
+				<one info="{{item}}" title_style="color: #ccc;" colors_style="height: 100rpx;" swidth="700" style="margin-top: 20rpx;"></one>
 			</block>
 
 			<view class="loading-box" wx:if="{{loading}}">

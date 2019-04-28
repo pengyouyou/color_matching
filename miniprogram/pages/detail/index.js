@@ -3,17 +3,30 @@ const util = require('../../utils/util')
 
 Page({
 
+	/**
+     * 用户点击右上角分享
+     */
+	onShareAppMessage: function () {
+		let data = this.data
+		let query = `id=${data.id}&json=${JSON.stringify(data.info)}`
+		return {
+			title: `${data.title}，看看我中意的配色方案！`,
+			path: `pages/detail/index?${query}`
+		}
+	},
+
     /**
      * 页面的初始数据
      */
     data: {
-		info: [],
+		id: 0,
+		info: null,
 		colors: [],
 		rgbs: [],
 		hsbs: [],
 		title: "",
 		desc: "",
-		images: null,
+		images: [],
 
 		heights: []
     },
@@ -33,13 +46,15 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
+		console.log('detail onLoad, options:', options, 'launch options:', wx.getLaunchOptionsSync())
+		 
 
-		console.log(options)
 		let json = JSON.parse(options.json)
 
 		// 基础信息通过参数传过来
-		const { id, title, colors } = json
+		const { _id, title, colors } = json
 
+		this.data.id = _id
 		// 可能这个json的数据不是全的，为了扩展方便，应该在有id的情况下去全局数组里取
 		// if (id) {
 		// 	// 取全体信息，包含描述等等
@@ -104,13 +119,6 @@ Page({
      * 生命周期函数--监听页面卸载
      */
     onUnload: function() {
-
-    },
-
-    /**
-     * 用户点击右上角分享
-     */
-    onShareAppMessage: function() {
 
     },
 
