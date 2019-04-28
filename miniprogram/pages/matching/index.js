@@ -39,9 +39,11 @@ Page({
     onLoad: function(options) {
 
 		console.log('matching onLoad, options:', options)
-		this.data.query = options
 
 		const { idx, category } = options
+
+		this.data.query = { idx, category }
+
 		let info = []
 		let title = ""
 		if (category == 1) {
@@ -99,10 +101,25 @@ Page({
 
     },
 
-	onTap: function (event) {
-		console.log('onTap', JSON.stringify(event))
-		// wx.navigateTo({
-		// 	url: '/pages/hue/index',
-		// })
+	onLongTap: function (event) {
+		console.log('onLongTap', JSON.stringify(event))
+		
+		let idx = event.currentTarget.dataset.idx
+		let colors = this.data.info.color[idx]
+		let str = colors.join(", ")
+		str = str.toLowerCase()
+		console.log(str)
+		wx.setClipboardData({
+			data: str,
+			success: function (res) {
+				wx.getClipboardData({
+					success: function (res) {
+						wx.showToast({
+							title: '复制成功'
+						})
+					}
+				})
+			}
+		})
 	},
 })
