@@ -30,3 +30,13 @@ page {
     color: #ccc;
 }
 
+.loading-box > button {
+	font-size: 24rpx;
+	color: #ccc;
+	background: transparent;
+}
+
+.loading-box > button::after {
+	border: none;
+}
+

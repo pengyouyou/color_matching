@@ -21,7 +21,7 @@ Page({
     data: {
         loading: true,
         infos: [],
-		bg_img: 'http://image.wufazhuce.com/FoOjDu9idRN61wTw1vdPGEn3sRVl',
+		// bg_img: 'http://image.wufazhuce.com/FoOjDu9idRN61wTw1vdPGEn3sRVl',
         SHOW_MENU: false,
         nickName: null,
     },

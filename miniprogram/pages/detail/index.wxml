@@ -9,20 +9,20 @@
 				<view class="detail-item-color" style="background-color: {{item}};"></view>
 				<view class="detail-item-value">
 					<text class="detail-item-value-text0">HEX</text>
-					<text class="detail-item-value-text1">{{item}}</text>
+					<text class="detail-item-value-text1" style='selectable: true;'>{{item}}</text>
 
 					<text class="detail-item-value-text0">RGB</text>
-					<text class="detail-item-value-text1">{{rgbs[index]}}</text>
+					<text class="detail-item-value-text1" style='selectable: true;'>{{rgbs[index]}}</text>
 
 					<text class="detail-item-value-text0">HSB</text>
-					<text class="detail-item-value-text1">{{hsbs[index]}}</text>
+					<text class="detail-item-value-text1" style='selectable: true;'>{{hsbs[index]}}</text>
 				</view>
 
 			</view>
 		</block>
 
 		<view class="menu-box">
-			<button class='menu-button-send' bindtap='onSend'>发送到微信</button>
+			<button class='menu-button-send' open-type="share" bindtap='onSend'>发送到微信</button>
 			<button class='menu-button-copy' bindtap='onCopy'>复制颜色代码</button>
 		</view>
 		<view class="desc-box">

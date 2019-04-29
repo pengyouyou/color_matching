@@ -3,6 +3,10 @@
 
 <container>
     <view class="container">
+		<view class='helper-box {{SHOW_HELPER}} ? "show-helper": ""' wx:if="{{SHOW_HELPER}}">
+			<text>长按色块可以复制颜色代码</text>
+			<image src="../../assets/close.svg" bindtap='closeHelper'></image>
+		</view>
 
 		<view class="tip-box" wx:if="{{tips}}">
 			<text>{{tips}}</text>

@@ -46,7 +46,7 @@ Page({
 		let flag = false
 		let param = {
 			start: 0,
-			len: 10
+			len: 20
 		}
 
 		// 有一个是0 或者 count小于sum
@@ -89,7 +89,7 @@ Page({
 
 	sendRequire(param) {
 		server.getPalettes(param).then(res => {
-			console.log('get getPalettes ok, res', res)
+			// console.log('get getPalettes ok, res', res)
 			wx.hideLoading()
 
 			// 放在setPalettes中设置loading

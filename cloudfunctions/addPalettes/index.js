@@ -5,7 +5,9 @@ const cloud = require('wx-server-sdk')
 const dbdata = require(`dbdata`)
 
 // 初始化 cloud
-cloud.init()
+cloud.init({
+	env: 'release-7i3hm'
+})
 
 const db = cloud.database()
 const MAX_LIMIT = 20

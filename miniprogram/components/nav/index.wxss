@@ -18,7 +18,12 @@
     justify-content: center;
 }
 
-.nav-button > image {
+/* .nav-button > image {
+    width: 46rpx;
+    height: 46rpx;
+} */
+
+.nav-button-image {
     width: 46rpx;
     height: 46rpx;
 }
@@ -38,7 +43,7 @@
     border: none;
 }
 
-.nav-button-share > image {
+.nav-image-share {
     width: 46rpx;
     height: 46rpx;
 }
@@ -52,8 +57,7 @@
     height: 44px;
 }
 
-.nav-title > text {
+/* .nav-title > text {
     font-size: 32rpx;
     color: #333;
-    /* font-weight: 400; */
-}
+} */

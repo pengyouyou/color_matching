@@ -1,7 +1,7 @@
 const app = getApp()
 const config = require('../../config')
 
-const HELPER_KEY = 'HELPER_20181223';
+const HELPER_KEY = 'HELPER_20190429';
 
 Page({
 
@@ -9,9 +9,10 @@ Page({
      * 用户点击右上角分享
      */
 	onShareAppMessage: function () {
+		let query = this.data.query
 		return {
-			title: `${this.data.title}，配色表，专注颜色搭配！`,
-			path: `pages/matching/index?${JSON.stringify(this.data.query)}`
+			title: `${this.data.title}，我们专注颜色搭配！`,
+			path: `pages/matching/index?idx=${query.idx}&category=${query.category}`
 		}
 	},
 
@@ -22,14 +23,16 @@ Page({
 		query: {},
 		info: [],
 		title: "配色组合",
-		tips: ""
+		tips: "",
+		SHOW_HELPER: false
     },
 
     closeHelper: function() {
         this.setData({
             SHOW_HELPER: false
         });
-        wx.setStorageSync(HELPER_KEY, 'yes');
+
+		wx.setStorageSync(HELPER_KEY, 'yes');
     },
 
 
@@ -42,7 +45,7 @@ Page({
 
 		const { idx, category } = options
 
-		this.data.query = { idx, category }
+		this.data.query = options
 
 		let info = []
 		let title = ""
@@ -61,15 +64,7 @@ Page({
 			tips: info.tip || ""
 		})
 
-        // 检查是否已经展示引导
-        let IS_SHOW_HELPER = wx.getStorageSync(HELPER_KEY);
-        if (!IS_SHOW_HELPER) {
-            wx.showToast({
-				title: '长按色块可以复制颜色值',
-				icon: 'info'
-			});
-			wx.setStorageSync(HELPER_KEY, 'yes');
-        }
+        
     },
     
 
@@ -77,7 +72,17 @@ Page({
      * 生命周期函数--监听页面初次渲染完成
      */
     onReady: function() {
-
+		let that = this
+		setTimeout(() => {
+			// 检查是否已经展示引导
+			let IS_SHOW_HELPER = wx.getStorageSync(HELPER_KEY);
+			if (!IS_SHOW_HELPER) {
+				that.setData({
+					SHOW_HELPER: true
+				});
+				// wx.setStorageSync(HELPER_KEY, 'yes');
+			}
+		}, 1000);
     },
 
     /**

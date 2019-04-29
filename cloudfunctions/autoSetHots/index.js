@@ -4,7 +4,9 @@
 const cloud = require('wx-server-sdk')
 
 // 初始化 cloud
-cloud.init()
+cloud.init({
+	env: 'release-7i3hm'
+})
 
 const db = cloud.database()
 const MAX_HOTS_COUNT = 7

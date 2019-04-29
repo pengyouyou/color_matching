@@ -12,7 +12,8 @@
 			</block>
 
 			<view class="loading-box" wx:if="{{loading}}">
-				<text>正在加载...</text>
+				<!-- <text>正在加载...</text> -->
+				<button loading='true'> 正在加载...</button>
 			</view>
         </view>
 	</view>
