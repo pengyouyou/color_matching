@@ -44,6 +44,18 @@
         <!-- <view class="home-item-mini" hover-class='home-item-hover' style="background-color: purple;" data-category="1" data-idx="4" bindtap='onTapMini'>
                 <text>紫色</text>
             </view> -->
+
+		<view class="menu-box">
+			<view class="single-item" hover-class='menu-item-hover' bindtap='onChinese'>
+                <text>中国传统色彩</text>
+            </view>
+			<view class="single-item" hover-class='menu-item-hover' bindtap='onJapanese'>
+                <text>日本传统色彩</text>
+            </view>
+			<view class="single-item" hover-class='menu-item-hover' bindtap='onWeb'>
+                <text>Web色彩对照表</text>
+            </view>
+		</view>
     </view>
 
 	<foot></foot>

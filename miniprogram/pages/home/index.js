@@ -161,5 +161,23 @@ Page({
 		wx.navigateTo({
 			url: `/pages/square/index`,
 		})
+	},
+
+	onChinese: function () {
+		wx.navigateTo({
+			url: `/pages/single/index?category=single_cn`,
+		})
+	},
+
+	onJapanese: function () {
+		wx.navigateTo({
+			url: `/pages/single/index?category=single_jp`,
+		})
+	},
+
+	onWeb: function () {
+		wx.navigateTo({
+			url: `/pages/single/index?category=single_web`,
+		})
 	}
 })

@@ -106,6 +106,36 @@ App({
 
 
 		// this.getList("http://www.peise.net/palette/20.html")
+
+
+		// let tt = `<li class="white"><a>古代紫  <span>#895b8a  </span></a></li>`
+
+		// let result = []
+		// var reg = /(<li[\s\S]*?)<a>([^<]*?)<[^#]*?(#[0-9a-fA-F]+)[\s\S]*?<\/li>/ig
+		
+		// var tmp = reg.exec(tt)
+		// while (tmp) {
+		// 	let sli = RegExp.$1
+		// 	let white = 0
+		// 	if (sli.indexOf('"white"') > -1) {
+		// 		white = 1
+		// 	}
+		// 	console.log(RegExp.$2, RegExp.$3, white)
+		// 	let name = RegExp.$2
+		// 	let hex = RegExp.$3
+		// 	name = name.replace(/\s+/i, "")
+			
+		// 	hex = hex.replace(/\s+/i, "")
+
+		// 	let resu = {
+		// 		name,
+		// 		hex,
+		// 		white
+		// 	}
+		// 	result.push(JSON.stringify(resu))
+
+		// 	tmp = reg.exec(tt)
+		// }
 		
     },
 

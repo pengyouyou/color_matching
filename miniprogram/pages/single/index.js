@@ -1,10 +1,11 @@
 const app = getApp()
-const server = require('../../utils/server')
+const single_cn = require('../../datas/single_cn')
+const single_jp = require('../../datas/single_jp')
 
 // 页面最少要求显示条数
 const MIN_COUNT = 10
 
-const HELPER_KEY = 'HELPER_SQUARE'
+const HELPER_KEY = 'HELPER_SINGLE'
 
 Page({
 
@@ -12,9 +13,10 @@ Page({
      * 用户点击右上角分享
      */
 	onShareAppMessage: function () {
+		let query = this.data.query
 		return {
-			title: '漫步配色广场，和颜色来一场偶遇！',
-			path: 'pages/square/index'
+			title: `${this.data.title}，助力你高效开发自己的配色方案！`,
+			path: `pages/single/index?&category=${query.category}`
 		}
 	},
 
@@ -22,7 +24,13 @@ Page({
      * 页面的初始数据
      */
     data: {
+		title: "中国传统色彩",
+		query: {},
+
         loading: false,
+		bottom_str: " 正在加载...",
+
+		count_limit: 0,
         infos: []
     },
 
@@ -41,7 +49,7 @@ Page({
 			// 使页面滚动到底部
 			wx.pageScrollTo({
 				scrollTop: rect.height,
-				// duration: 100
+				duration: 100
 			})
 			
 		}).exec()
@@ -49,14 +57,14 @@ Page({
 
 	require(touch_bottom = false) {
 		let that = this
-		let sum = app.globalData.sum_palettes
-		let count = app.globalData.palettes.length
-		console.log('count: ', count, 'sum: ', sum)
+		let sum = this.data.infos.length
+		let count = this.data.count_limit
+		console.log('require, current count: ', count, 'sum: ', sum)
 
 		let flag = false
 		let param = {
 			start: 0,
-			len: 20
+			len: 60
 		}
 
 		// 有一个是0 或者 count小于sum
@@ -83,9 +91,12 @@ Page({
 					that.pageScrollToBottom()
 
 					// 在当前同步流程结束后，下一个时间片执行
-					wx.nextTick(() => {
+					// wx.nextTick(() => {
+					// 	that.sendRequire(param)
+					// })
+					setTimeout(() => {
 						that.sendRequire(param)
-					})
+					}, 120)
 				})
 
 				return flag
@@ -98,41 +109,37 @@ Page({
 	}, 
 
 	sendRequire(param) {
-		server.getPalettes(param).then(res => {
-			// console.log('get getPalettes ok, res', res)
-			wx.hideLoading()
+		let limit = this.data.count_limit
+		let len = this.data.infos.length
 
-			// 放在setPalettes中设置loading
-			// this.setData({
-			// 	loading: false
-			// })
-
-			const { start, total, data } = res
-			app.globalData.sum_palettes = total
-
-			if (start == 0) {
-				app.globalData.palettes = data
-			} else {
-				app.globalData.palettes = app.globalData.palettes.concat(data)
-			}
-
-			this.setPalettes(app.globalData.palettes)
-		}).catch(err => {
-			console.log('get getPalettes failed')
+		if (limit >= len) {
+			console.log('hei, on more single color')
 			wx.hideLoading()
 			this.setData({
-				loading: false
+				bottom_str: " 真的没有了",
 			})
+		} else {
+			limit += param.len
+			if (limit >= len) {
+				limit = len
 
-			let str = '没有获取到更多配色方案'
-			if (param.start == 0) {
-				str = `啊噢，${str}，服务器可能进水了`
+				console.log('on more single color')
+				wx.hideLoading()
+				this.setSingles({
+					count_limit: limit,
+					infos: this.data.infos,
+					bottom_str: " 阁下好臂力，已经拉到底了",
+				})
+			} else {
+				wx.hideLoading()
+				this.setSingles({
+					loading: false,
+					// 要加上infos才能触发刷新
+					infos: this.data.infos,
+					count_limit: limit
+				})
 			}
-			wx.showToast({
-				icon: 'none',
-				title: str
-			})
-		})
+		}
 	},
 
 	onScrollToBottom: function(event) {
@@ -156,59 +163,38 @@ Page({
      * 生命周期函数--监听页面加载
      */
     onLoad: function(options) {
-		console.log('square onLoad, options:', options)
-        // wx.getUserInfo({
-        //     success: ret => {
-        //         this.setData({
-        //             nickName: ret.userInfo.nickName
-        //         });
-        //     }
-        // });
+		console.log('single onLoad, options:', options)
+     
+		const { category } = options
 
-		this.setPalettes(app.globalData.palettes)
+		this.data.query = options
+
+		let infos = []
+		let title = ""
+		if (category == "single_cn") {
+			infos = single_cn
+			title = "中国传统色彩"
+		} else if (category == "single_jp") {
+			infos = single_jp
+			title = "日本传统色彩"
+		} else if (category == "single_web") {
+			infos = single_jp
+			title = "Web色彩对照表"
+		}
+
+		this.data.infos = infos
+
+		this.setData({
+			title
+		})
 
 		this.require()
-		// console.log('square onLoad, length: ', infos.length, 'sum: ', app.globalData.sum_palettes)
-
-		// if (infos.length > 0) return
-
-		// wx.showLoading({
-		// 	title: '',
-		// })
-
-		// let param = {
-		// 	start: 0,
-		// 	len: 4
-		// }
-		// server.getPalettes(param).then(res => {
-		// 	console.log('get getPalettes ok, res', res)
-		// 	wx.hideLoading()
-			
-		// 	const {start, total, data} = res
-		// 	if (start == 0) {
-		// 		app.globalData.palettes = data
-		// 	} else {
-		// 		app.globalData.palettes = app.globalData.palettes.concat(data)
-		// 	}
-			
-		// 	this.setPalettes(app.globalData.palettes)
-		// }).catch(err => {
-		// 	console.log('get getPalettes failed')
-		// 	wx.hideLoading()
-		// 	wx.showToast({
-		// 		icon: 'none',
-		// 		title: '啊噢，没有获取到更多配色方案，服务器可能进水了'
-		// 	})
-		// })
 
     },
 
-	setPalettes(infos) {
-		console.log('setPalettes, length:', infos.length)
-		this.setData({
-			infos,
-			loading: false
-		})
+	setSingles(data) {
+		console.log('setSingles, limit:', data.count_limit, 'length:', this.data.infos.length)
+		this.setData(data)
 	},
     
 
@@ -249,4 +235,26 @@ Page({
     onUnload: function() {
 
     },
+
+	onLongTap: function (event) {
+		console.log('onLongTap', JSON.stringify(event))
+
+		let idx = event.currentTarget.dataset.idx
+		let info = this.data.infos[idx]
+		let str = `${info.name} ${info.hex}`
+		str = str.toLowerCase()
+		console.log(str)
+		wx.setClipboardData({
+			data: str,
+			success: function (res) {
+				wx.getClipboardData({
+					success: function (res) {
+						wx.showToast({
+							title: '复制成功'
+						})
+					}
+				})
+			}
+		})
+	}
 })

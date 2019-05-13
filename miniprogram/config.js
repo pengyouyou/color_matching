@@ -19,8 +19,8 @@ const config = {
     templateMessageUrl: `https://${host}/templateMessage`,
 
     // 云开发环境 ID
-    // envId: 'test-5a5603',
-    envId: 'release-7i3hm',
+    envId: 'test-5a5603',
+    // envId: 'release-7i3hm',
 
     // 默认首页展示的配色
 	default_palettes: [{
